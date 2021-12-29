@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <title>User Panel</title>
+</head>
+
+<body>
+<div align="center">
+    <h1>User</h1>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th> Id</th>
+            <th>Name</th>
+            <th>LastName</th>
+            <th>UserName</th>
+            <th>Password</th>
+        </tr>
+        </thead>
+        <tbody>
+            <td th:text="${userInfo.id}">Id</td>
+            <td th:text="${userInfo.name}">Name</td>
+            <td th:text="${userInfo.lastName}">LastName</td>
+            <td th:text="${userInfo.userName}">UserName</td>
+            <td th:text="${userInfo.password}">Password</td>
+        </tbody>
+        <a href="javascript: document.logoutForm.submit()" role="menuitem"> Exit</a>
+
+        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out"/>
+        </form>
+    </table>
+</div>
+</body>
+</html>
