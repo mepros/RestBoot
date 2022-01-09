@@ -39,7 +39,11 @@ public class User implements UserDetails {
    public String getRolesForTable() {
       String rolesForTable = "";
       for(Role role : getRoles()) {
-         rolesForTable = rolesForTable + "\n" + role.getRole();
+         if (role.getRole().equals("ROLE_ADMIN")){
+            rolesForTable = rolesForTable + "\n" + "ADMIN";
+         } else if (role.getRole().equals("ROLE_USER")){
+            rolesForTable = rolesForTable + "\n" + "USER";
+         }
       }
       return rolesForTable;
    }
@@ -128,6 +132,10 @@ public class User implements UserDetails {
 
    public void setLastName(String lastName) {
       this.lastName = lastName;
+   }
+
+   public void setId(Long id) {
+      this.id = id;
    }
 
    public String getUserName() {

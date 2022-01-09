@@ -1,38 +1,65 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-    <title>User Panel</title>
-</head>
-
-<body>
-<div align="center">
-    <h1>User</h1>
-    <br/><br/>
-    <table border="1" cellpadding="10">
-        <thead>
-        <tr>
-            <th> Id</th>
-            <th>Name</th>
-            <th>LastName</th>
-            <th>UserName</th>
-            <th>Password</th>
-        </tr>
-        </thead>
-        <tbody>
-            <td th:text="${userInfo.id}">Id</td>
-            <td th:text="${userInfo.name}">Name</td>
-            <td th:text="${userInfo.lastName}">LastName</td>
-            <td th:text="${userInfo.userName}">UserName</td>
-            <td th:text="${userInfo.password}">Password</td>
-        </tbody>
-        <a href="javascript: document.logoutForm.submit()" role="menuitem"> Exit</a>
-
-        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-            <input hidden type="submit" value="Sign Out"/>
-        </form>
-    </table>
-</div>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title>User Page</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">
+                <span th:text="${userInfo.userName}"></span>
+                with roles:
+                <span th:text="${userInfo.rolesForTable}"></span>
+            </a>
+            <a class="nav-link" href="/logout"><h5>Logout</h5></a>
+        </nav>
+        <div class="container-fluid d-flex flex-column">
+            <div class="row">
+                <div class="col-sm-2 mt-2 px-0">
+                    <nav class="d-none d-sm-block sidebar">
+                        <div class="bg-light text-dark">
+                            <nav class="sidebar">
+                                <ul class="nav nav-pills flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link  active" href="/user">User</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </nav>
+                </div>
+                <div class="col-sm bg-light text-dark">
+                    <h1 class="h1 ml-3 mb-3 mt-2 font-bold">User information-Page</h1>
+                    <table class="table table-striped">
+                        <div class="container-fluid">
+                            <h5 class="p-2 pl-3 m-0 rounded">About user</h5>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <thead>
+                                        <tr>
+                                            <th> ID</th>
+                                            <th>Name</th>
+                                            <th>LastName</th>
+                                            <th>UserName</th>
+                                            <th>Password</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <td th:text="${userInfo.id}">Id</td>
+                                        <td th:text="${userInfo.name}">Name</td>
+                                        <td th:text="${userInfo.lastName}">LastName</td>
+                                        <td th:text="${userInfo.userName}">UserName</td>
+                                        <td th:text="${userInfo.password}">Password</td>
+                                    </tbody>
+                                </div>
+                            </div>
+                        </div>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

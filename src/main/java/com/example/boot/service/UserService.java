@@ -21,4 +21,5 @@ public interface UserService {
     User getUserByName(String userName);
 
     Role getRoleByName(String name);
+
 }

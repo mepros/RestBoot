@@ -20,14 +20,22 @@ import java.util.Set;
 @Controller
 public class UserController {
 
+	private final UserService userService;
+
 	@Autowired
-	private UserService userService;
+	UserController(UserService userService){
+		this.userService = userService;
+	}
 
 	@GetMapping("/admin")
 	public String listUsers(Model model){
 		model.addAttribute("listUsers", userService.listUser());
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("userInfo", user);
+		model.addAttribute("user", new User());
 		return "users";
 	}
+
 	@GetMapping("/user")
 	public String userInfo(Model model){
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -35,14 +43,9 @@ public class UserController {
 		return "user";
 	}
 
-	@GetMapping("/add")
-	public String create(Model model){
-		model.addAttribute("user", new User());
-		model.addAttribute("userRoles", userService.listRoles());
-		return "add";
-	}
 	@PostMapping("/save")
 	public String createUser(@ModelAttribute("user") User user, String[] roleNames){
+		System.out.println(user);
 		Set<Role> rolesSet = new HashSet<>();
 		for (String name: roleNames) {
 			rolesSet.add(userService.getRoleByName(name));
@@ -51,19 +54,13 @@ public class UserController {
 		userService.addUser(user);
 		return "redirect:/admin";
 	}
+
 	@GetMapping("/remove/{id}")
 	public String removeUser(@PathVariable("id") long id){
 		this.userService.removeUser(id);
 		return "redirect:/admin";
 	}
-	@GetMapping("/edit/{id}")
-	public String update(@PathVariable("id") long id, Model model){
-		User user =  userService.getUserById(id);
-		model.addAttribute("user", user);
-		model.addAttribute("selectedRoles", user.getRoles());
-		model.addAttribute("existingRoles", userService.listRoles());
-		return "edit";
-	}
+
 	@PostMapping("/update")
 	public String updateUser(@ModelAttribute("user") User user, String[] roleNames){
 		Set<Role> rolesSet = new HashSet<>();
@@ -74,5 +71,4 @@ public class UserController {
 		userService.updateUser(user);
 		return "redirect:/admin";
 	}
-
 }
