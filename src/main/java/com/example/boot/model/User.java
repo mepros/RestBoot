@@ -27,7 +27,7 @@ public class User implements UserDetails {
    @Column(name = "password")
    private String password;
 
-   @ManyToMany(fetch = FetchType.EAGER)
+   @ManyToMany(fetch = FetchType.LAZY)
    @JoinTable(name = "user_roles",
            joinColumns = @JoinColumn(name = "user_id"),
            inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -39,11 +39,7 @@ public class User implements UserDetails {
    public String getRolesForTable() {
       String rolesForTable = "";
       for(Role role : getRoles()) {
-         if (role.getRole().equals("ROLE_ADMIN")){
-            rolesForTable = rolesForTable + "\n" + "ADMIN";
-         } else if (role.getRole().equals("ROLE_USER")){
-            rolesForTable = rolesForTable + "\n" + "USER";
-         }
+            rolesForTable = rolesForTable + role.getRole().substring(5) + " ";
       }
       return rolesForTable;
    }

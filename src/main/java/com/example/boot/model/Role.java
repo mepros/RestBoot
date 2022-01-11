@@ -17,7 +17,7 @@ public class Role implements GrantedAuthority {
     private String role;
 
     @Transient
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
     public Long getId() {
@@ -66,4 +66,5 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return role;
     }
+
 }

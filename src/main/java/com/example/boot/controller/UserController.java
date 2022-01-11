@@ -45,7 +45,6 @@ public class UserController {
 
 	@PostMapping("/save")
 	public String createUser(@ModelAttribute("user") User user, String[] roleNames){
-		System.out.println(user);
 		Set<Role> rolesSet = new HashSet<>();
 		for (String name: roleNames) {
 			rolesSet.add(userService.getRoleByName(name));
