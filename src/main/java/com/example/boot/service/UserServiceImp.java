@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -19,14 +21,26 @@ public class UserServiceImp implements UserService {
 
    @Transactional
    @Override
-   public void addUser(User user) {
+   public User addUser(User user, String[] roleNames) {
+      Set<Role> rolesSet = new HashSet<>();
+      for (String name: roleNames) {
+         rolesSet.add(userDao.getRoleByName(name));
+      }
+      user.setRoles(rolesSet);
       userDao.addUser(user);
+      return user;
    }
 
    @Transactional
    @Override
-   public void updateUser(User user) {
+   public User updateUser(User user, String[] roleNames) {
+      Set<Role> rolesSet = new HashSet<>();
+      for (String name: roleNames) {
+         rolesSet.add(userDao.getRoleByName(name));
+      }
+      user.setRoles(rolesSet);
       userDao.updateUser(user);
+      return user;
    }
 
    @Transactional

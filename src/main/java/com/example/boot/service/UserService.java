@@ -6,9 +6,9 @@ import com.example.boot.model.User;
 import java.util.List;
 
 public interface UserService {
-    void addUser(User user);
+    User addUser(User user, String[] roleNames);
 
-    void updateUser(User user);
+    User updateUser(User user, String[] roleNames);
 
     void removeUser(long id);
 
