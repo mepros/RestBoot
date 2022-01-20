@@ -36,12 +36,12 @@ async function getTableWithUsers() {
                     <td>${user.password}</td>
                     <td>${user.rolesForTable}</td>
                     <td>
-                        <a type="button" onmouseover="editUser("${user.id}")" data-action="edit" class="btn btn-info"
-                        data-toggle="modal" data-target="#someDefaultModal">Edit</a>
+                       <button type="button" data-userid="${user.id}" data-action="edit" class="btn btn-primary" 
+                                data-toggle="modal" data-target="#someDefaultModal">Edit</button>
                     </td>
                     <td>
-                         <a type="button" onmouseover="deleteUser("${user.id}")" data-action="delete" class="btn btn-danger"
-                        data-toggle="modal" data-target="someDefaultModal">Delete</a>
+                          <button type="button" data-userid="${user.id}" data-action="delete" class="btn btn-danger" 
+                                data-toggle="modal" data-target="#someDefaultModal">Delete</button>
                     </td>
                 </tr>
                     
