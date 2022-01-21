@@ -1,8 +1,8 @@
 $(async function () {
     await getTableWithUsers();
-     addNewUser();
+      addNewUser();
      editUser();
-     deleteUser();
+      deleteUser();
 })
 
 const usersFetchService = {
@@ -12,11 +12,11 @@ const usersFetchService = {
         'Referer': null
     },
 
-findAllUsers: async () => await fetch('api/restUsers'),
-addUser: async (user) => await fetch('api/restUsers', {method: 'POST', headers: usersFetchService.head, body: JSON.stringify(user)}),
-findOneUser: async (id) => await fetch('api/restUsers/${id}'),
-editUser: async (user, id) => await fetch('api/restUsers', {method: 'PUT', headers: usersFetchService.head, body: JSON.stringify(user)}),
-deleteUsers: async (id) => await fetch('api/restUsers/${id}', {method: 'DELETE', headers: usersFetchService.head}),
+findAllUsers: async () => await fetch('/api/restUsers'),
+addUser: async (user) => await fetch('/api/restUsers', {method: 'POST', headers: usersFetchService.head, body: JSON.stringify(user)}),
+findOneUser: async (id) => await fetch('/api/restUsers/${id}'),
+editUser: async (user, id) => await fetch('/api/restUsers', {method: 'PUT', headers: usersFetchService.head, body: JSON.stringify(user)}),
+deleteUsers: async (id) => await fetch('/api/restUsers/${id}', {method: 'DELETE', headers: usersFetchService.head}),
 
 }
 async function getTableWithUsers() {
@@ -66,16 +66,16 @@ async function getTableWithUsers() {
         keyboard: true,
         backdrop: "static",
         show: false
-    }).on("show.bs.modal", (event) => {
+    }).on("show.bs.modal", async (event) => {
         let thisModal = $(event.target);
         let userid = thisModal.attr('data-userid');
         let action = thisModal.attr('data-action');
-        switch (action){
+        switch (action) {
             case 'edit':
-                editUser(thisModal, userid);
+                await editUser(thisModal, userid);
                 break;
             case 'delete':
-                deleteUser(thisModal, userid);
+                await deleteUser(thisModal, userid);
                 break;
         }
     }).on("hidden.bs.modal", (e) => {
@@ -104,7 +104,7 @@ async function addNewUser() {
         }
         const response = await usersFetchService.addUser(data);
         if (response.ok) {
-            getTableWithUsers();
+            await getTableWithUsers();
             addUserForm.find('#AddNewUserName').val('');
             addUserForm.find('#AddNewLastName').val('');
             addUserForm.find('#AddNewUserUserName').val('');
@@ -138,12 +138,12 @@ async function editUser(modal, id) {
     user.then(user => {
         let bodyForm = `
         <form class="form-group" id="editUser">
-            <input type="text" class="form-control" id="id1" name="id" value="${user.id}" disabled><br>
+            <input type="number" class="form-control" id="id1" name="id" value="${user.id}" disabled><br>
             <input class="form-control" type="text" id="name1" value="${user.name}"><br>
             <input class="form-control" type="text" id="lastName1" value="${user.lastName}"><br>
             <input class="form-control" type="text" id="userName1" value="${user.userName}"><br>
             <input class="form-control" type="password" id="password1" value="${user.password}"><br>
-            <input class="form-control" type="text" id="roles1"  value="${user.rolesForTable}"><br>
+            <input class="form-control" type="text" id="roles1"  value="${user.rolesForTable}"><br> 
         </form>`;
         modal.find('.modal-body').append(bodyForm);
     })
