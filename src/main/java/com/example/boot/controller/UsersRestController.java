@@ -39,7 +39,7 @@ public class UsersRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/restUsers")
+    @PostMapping("/restUsers/")
     public ResponseEntity<User>  updateUser(@RequestBody User user, String[] roleNames) {
         userService.updateUser(user, roleNames);
         return new ResponseEntity<>(HttpStatus.OK);

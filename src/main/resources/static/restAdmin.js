@@ -28,7 +28,7 @@ function fillUsersTable() {
     )
 }
 function fillEditModal(userId) {
-    $.get("http://localhost:8080/api/restUsers" + userId, function (userJSON) {
+    $.get("http://localhost:8080/api/restUsers/" + userId, function (userJSON) {
         $('#idToEdit').val(userJSON.id);
         $('#nameToEdit').val(userJSON.name);
         $('#lastNameToEdit').val(userJSON.lastName);
@@ -39,7 +39,7 @@ function fillEditModal(userId) {
     });
 }
 function fillDeleteModal(userId) {
-    $.get("http://localhost:8080/api/restUsers/{id}" + userId, function (userJSON) {
+    $.get("http://localhost:8080/api/restUsers/" + userId, function (userJSON) {
         $('#idToDelete').val(userJSON.id);
         $('#nameToDelete').val(userJSON.name);
         $('#lastNameToDelete').val(userJSON.lastName);
@@ -54,7 +54,7 @@ function reloadNewUserTable(){
     $('#newLastName').val('');
     $('#newUserName').val('');
     $('#newPassword').val('');
-    $('#newRole').val('').map(role => role.value);
+    $('#newRole').val('');
 
 }
 
@@ -97,21 +97,16 @@ $(function () {
         fillUsersTable();
     });
     $('#modalEditBtn').on("click", function () {
-        let checked = [];
-        $('input:checkbox:checked').each(function () {
-            checked.push($(this).val());
-        });
-
         let user = {
             id : $('#idToEdit').val(),
             name : $("#nameToEdit").val(),
             lastName : $("#lastNameToEdit").val(),
             userName : $("#userNameToEdit").val(),
             password : $("#passwordToEdit").val(),
-            roles : checked
+            rolesForTable : $("#roleToEdit").val()
         };
         fetch('http://localhost:8080/api/restUsers', {
-            method: "PUT",
+            method: "POST",
             body: JSON.stringify(user),
             headers: {
                 'Accept': 'application/json',

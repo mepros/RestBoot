@@ -19,6 +19,11 @@ public class UserController {
 		this.userService = userService;
 	}
 
+	@GetMapping("/")
+	public String home(){
+		return "redirect:/login";
+	}
+
 	@GetMapping("/admin")
 	public String listUsers(Model model){
 		model.addAttribute("listUsers", userService.listUser());
