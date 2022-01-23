@@ -1,8 +1,7 @@
 $(async function () {
     await getTableWithUsers();
-      addNewUser();
-     editUser();
-      deleteUser();
+    getDefaultModal();
+    addNewUser();
 })
 
 const usersFetchService = {
@@ -12,11 +11,11 @@ const usersFetchService = {
         'Referer': null
     },
 
-findAllUsers: async () => await fetch('/api/restUsers'),
-addUser: async (user) => await fetch('/api/restUsers', {method: 'POST', headers: usersFetchService.head, body: JSON.stringify(user)}),
-findOneUser: async (id) => await fetch('/api/restUsers/${id}'),
-editUser: async (user, id) => await fetch('/api/restUsers', {method: 'PUT', headers: usersFetchService.head, body: JSON.stringify(user)}),
-deleteUsers: async (id) => await fetch('/api/restUsers/${id}', {method: 'DELETE', headers: usersFetchService.head}),
+    findAllUsers: async () => await fetch('api/restUsers'),
+    findOneUser: async (id) => await fetch(`api/restUsers/${id}`),
+    addUser: async (user) => await fetch('api/restUsers', {method: 'POST', headers: usersFetchService.head, body: JSON.stringify(user)}),
+    editUser: async (user, id) => await fetch(`api/restUsers/${id}`, {method: 'PUT', headers: usersFetchService.head, body: JSON.stringify(user)}),
+    deleteUsers: async (id) => await fetch(`api/restUsers/${id}`, {method: 'DELETE', headers: usersFetchService.head})
 
 }
 async function getTableWithUsers() {
@@ -61,7 +60,7 @@ async function getTableWithUsers() {
     })
 }
 
- function getDefaultModal() {
+function getDefaultModal() {
     $('#someDefaultModal').modal({
         keyboard: true,
         backdrop: "static",
@@ -139,11 +138,11 @@ async function editUser(modal, id) {
         let bodyForm = `
         <form class="form-group" id="editUser">
             <input type="number" class="form-control" id="id1" name="id" value="${user.id}" disabled><br>
-            <input class="form-control" type="text" id="name1" value="${user.name}"><br>
-            <input class="form-control" type="text" id="lastName1" value="${user.lastName}"><br>
-            <input class="form-control" type="text" id="userName1" value="${user.userName}"><br>
-            <input class="form-control" type="password" id="password1" value="${user.password}"><br>
-            <input class="form-control" type="text" id="roles1"  value="${user.rolesForTable}"><br> 
+            <input class="form-control form-control-sm" type="text" id="name1" value="${user.name}"><br>
+            <input class="form-control form-control-sm" type="text" id="lastName1" value="${user.lastName}"><br>
+            <input class="form-control form-control-sm" type="text" id="userName1" value="${user.userName}"><br>
+            <input class="form-control form-control-sm" type="password" id="password1" value="${user.password}"><br>
+            <input class="form-control form-control-sm" type="text" id="roles1"  value="${user.rolesForTable}"><br> 
         </form>`;
         modal.find('.modal-body').append(bodyForm);
     })
@@ -165,8 +164,8 @@ async function editUser(modal, id) {
         const response = await usersFetchService.editUser(data, id);
 
         if(response.ok) {
-        await getTableWithUsers();
-        modal.modal('hide');
+            await getTableWithUsers();
+            modal.modal('hide');
         } else {
             let body = await response.json();
             let alert = `<div class="alert alert-danger alert-dismissible fade show col-12" role="alert" id="sharaBaraMessageError">
@@ -181,13 +180,57 @@ async function editUser(modal, id) {
 }
 
 async function deleteUser(modal, id) {
-    await usersFetchService.deleteUsers(id);
-    await getTableWithUsers();
-    modal.find('.modal-title').html('');
-    modal.find('.modal-body').html('User was deleted');
-    let closeButton = `<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close</button>`
+    let preuser = await usersFetchService.deleteUsers(id);
+    let user = preuser.json();
+
+    modal.find('.modal-title').html('Delete user');
+
+    let deleteButton = `<button class="btn btn-outline-danger" id="editButton">Delete</button>`;
+    let closeButton = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
+    modal.find('.modal-footer').append(deleteButton);
     modal.find('.modal-footer').append(closeButton);
 
+    user.then(user => {
+        let bodyForm = `
+        <form class="form-group" id="deleteUser">
+            <input type="number" class="form-control" id="id2" name="id" value="${user.id}" disabled><br>
+            <input class="form-control form-control-sm" type="text" id="name2" value="${user.name}"><br>
+            <input class="form-control form-control-sm" type="text" id="lastName2" value="${user.lastName}"><br>
+            <input class="form-control form-control-sm" type="text" id="userName2" value="${user.userName}"><br>
+            <input class="form-control form-control-sm" type="password" id="password2" value="${user.password}"><br>
+            <input class="form-control form-control-sm" type="text" id="roles2"  value="${user.rolesForTable}"><br> 
+        </form>`;
+        modal.find('.modal-body').append(bodyForm);
+    })
+    $("#deleteButton").on('click', async () => {
+        let id = modal.find("#id2").val().trim();
+        let name = modal.find("#name2").val().trim();
+        let lastName = modal.find("#lastName2").val().trim();
+        let userName = modal.find("#userName2").val().trim();
+        let password = modal.find("#password2").val().trim();
+        let roles = modal.find("#roles2").val().trim();
+        let data = {
+            id: id,
+            name: name,
+            lastName : lastName ,
+            userName: userName,
+            password: password,
+            roles: roles
+        }
+        const response = await usersFetchService.deleteUsers(data, id);
+
+        if(response.ok) {
+            await getTableWithUsers();
+            modal.modal('hide');
+        } else {
+            let body = await response.json();
+            let alert = `<div class="alert alert-danger alert-dismissible fade show col-12" role="alert" id="sharaBaraMessageError">
+                            ${body.info}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+            modal.find('.modal-body').prepend(alert);
+        }
+    })
 }
-
-
