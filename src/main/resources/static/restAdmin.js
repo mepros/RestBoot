@@ -49,6 +49,7 @@ function fillDeleteModal(userId) {
     });
 }
 function reloadNewUserTable(){
+
     $('#newName').val('');
     $('#newLastName').val('');
     $('#newUserName').val('');
@@ -61,15 +62,21 @@ function reloadNewUserTable(){
 $(function () {
     $("#logout").append("<a class='custom-a' href='/logout'>Logout</a>");
     $('#addSubmit').on("click", function () {
+        let userRoles = []
+        console.log($('#addFormRoles').val())
+        for(let i = 0; i < $('#addFormRoles').val().length; i++){
+            userRoles.push({role:$('#addFormRoles').val()[i]})
+        }
         let user = {
             name : $("#newName").val(),
             lastName : $("#newLastName").val(),
             userName : $("#newUserName").val(),
             password : $("#newPassword").val(),
-            roles : $("#newRole").val(),
+            roles : userRoles
         };
         fetch('http://localhost:8080/api/restUsers', {
             method: "POST",
+            credentials: 'same-origin',
             body: JSON.stringify(user),
             headers: {
                 'Accept': 'application/json',

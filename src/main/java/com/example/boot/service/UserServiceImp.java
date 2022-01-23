@@ -16,8 +16,11 @@ import java.util.Set;
 @Service
 public class UserServiceImp implements UserService {
 
-   @Autowired
-   private UserDao userDao;
+   private final UserDao userDao;
+
+   UserServiceImp(UserDao userDao){
+      this.userDao = userDao;
+   }
 
    @Transactional
    @Override
@@ -27,6 +30,7 @@ public class UserServiceImp implements UserService {
          rolesSet.add(userDao.getRoleByName(name));
       }
       user.setRoles(rolesSet);
+      System.out.println(user);
       userDao.addUser(user);
       return user;
    }
