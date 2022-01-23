@@ -46,7 +46,7 @@
                                 <div class="tab-content border rounded">
                                     <div class="tab-pane fade show active">
                                         <h5 class="p-2 pl-3 m-0 rounded">All users</h5>
-                                        <table class="table table-striped" id="tableWithUsers">
+                                        <table class="table table-striped" >
                                             <thead>
                                             <tr>
                                                 <th> ID</th>
@@ -59,135 +59,138 @@
                                                 <th>Delete</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr>
-                                                    <div class="modal fade" id="someDefaultModal" tabindex="-1" role="dialog"
-                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <form>
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="form-group text-center font-weight-bold">
-                                                                            <label>ID
-                                                                                <input type="number"
-                                                                                       class="form-control form-control-sm"
-                                                                                       id="id1"
-                                                                                       name="id"
-                                                                                       readonly="readonly">
-                                                                            </label>
-                                                                            <br>
-                                                                            <label>Name
-                                                                                <input type="text"
-                                                                                       class="form-control form-control-sm"
-                                                                                       id="name1" name="name">
-                                                                            </label>
-                                                                            <br>
-                                                                            <label>LastName
-                                                                                <input type="text"
-                                                                                       class="form-control form-control-sm"
-                                                                                       id="lastName1" name="lastName">
-                                                                            </label>
-                                                                            <br>
-                                                                            <label>UserName
-                                                                                <input type="text"
-                                                                                       class="form-control form-control-sm"
-                                                                                       id="userName1" name="userName">
-                                                                            </label>
-                                                                            <br>
-                                                                            <label>Password
-                                                                                <input type="password"
-                                                                                       class="form-control form-control-sm"
-                                                                                       id="password1" name="password">
-                                                                            </label>
-                                                                            <br>
-                                                                            <label>Role
-                                                                                <select class="form-control form-control-sm" multiple name="roleNames" id="roles1" required size="2">
-                                                                                    <option value="ROLE_USER" selected>USER</option>
-                                                                                    <option value="ROLE_ADMIN" selected>ADMIN</option>
-                                                                                </select>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                            <button type="submit" id="editUser" class="btn btn-primary" data-dismiss='modal'>Edit</button>
-                                                                    </div>
-                                                                </form>
+                                            <tbody id="usersTableHere">
+                                                <div class="modal fade" id="editUser" tabindex="-1" role="dialog"
+                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" >
+                                                            <input type='hidden' id='idToEditUser'>
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group text-center font-weight-bold">
+                                                                    <label>ID
+                                                                        <input type="text"
+                                                                               class="form-control form-control-sm"
+                                                                               name="id"
+                                                                               readonly="readonly">
+                                                                    </label>
+                                                                    <br>
+                                                                    <label>Name
+                                                                        <input type="text"
+                                                                               class="form-control form-control-sm"
+                                                                               id="nameToEdit"
+                                                                               name="name">
+                                                                    </label>
+                                                                    <br>
+                                                                    <label>LastName
+                                                                        <input type="text"
+                                                                               class="form-control form-control-sm"
+                                                                               id="lastNameToEdit"
+                                                                               name="lastName">
+                                                                    </label>
+                                                                    <br>
+                                                                    <label>UserName
+                                                                        <input type="text"
+                                                                               class="form-control form-control-sm"
+                                                                               id="userNameToEdit"
+                                                                               name="userName">
+                                                                    </label>
+                                                                    <br>
+                                                                    <label>Password
+                                                                        <input type="password"
+                                                                               class="form-control form-control-sm"
+                                                                               id="passwordToEdit"
+                                                                               name="password">
+                                                                    </label>
+                                                                    <br>
+                                                                    <label>Role
+                                                                        <select class="form-control form-control-sm" multiple name="roleNames" id="roleToEdit" required size="2">
+                                                                            <option value="ROLE_USER" selected>USER</option>
+                                                                            <option value="ROLE_ADMIN" selected>ADMIN</option>
+                                                                        </select>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary" id="modalEditBtn" >Edit</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                <td>
-                                                    <div class="modal fade" id="someDefaultModal" tabindex="-1" role="dialog"
-                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" >Delete user</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
+                                                </div>
+                                            <td>
+                                                <div class="modal fade" id="deleteUser" tabindex="-1" role="dialog"
+                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <input type='hidden' id="idToDelete">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Delete user</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group text-center font-weight-bold">
+                                                                    <label>ID
+                                                                        <input type="text"
+                                                                               class="form-control form-control-sm"
+                                                                               readonly="readonly">
+                                                                    </label>
+                                                                    <br>
+                                                                    <label>Name
+                                                                        <input type="text"
+                                                                               class="form-control form-control-sm"
+                                                                               id="nameToDelete"
+                                                                               name="name"
+                                                                               readonly="readonly">
+                                                                    </label>
+                                                                    <br>
+                                                                    <label>LastName
+                                                                        <input type="text"
+                                                                               class="form-control form-control-sm"
+                                                                               id="lastNameToDelete"
+                                                                               name="lastName"
+                                                                               readonly="readonly">
+                                                                    </label>
+                                                                    <br>
+                                                                    <label>UserName
+                                                                        <input type="text"
+                                                                               class="form-control form-control-sm"
+                                                                               id="userNameToDelete"
+                                                                               name="userName"
+                                                                               readonly="readonly">
+                                                                    </label>
+                                                                    <br>
+                                                                    <label>Password
+                                                                        <input type="password"
+                                                                               class="form-control form-control-sm"
+                                                                               id="passwordToDelete"
+                                                                               name="password"
+                                                                               readonly="readonly">
+                                                                    </label>
+                                                                    <br>
+                                                                    <label>Role
+                                                                        <select class="form-control form-control-sm" multiple name="roleNames" id="roleToDelete" required size="2" readonly="readonly">
+                                                                            <option value="ROLE_USER" selected>USER</option>
+                                                                            <option value="ROLE_ADMIN" selected>ADMIN</option>
+                                                                        </select>
+                                                                    </label>
                                                                 </div>
-                                                                <div class="modal-body">
-                                                                    <div class="form-group text-center font-weight-bold">
-                                                                        <label>ID
-                                                                            <input type="number"
-                                                                                   class="form-control form-control-sm"
-                                                                                   id="id2"
-                                                                                   readonly="readonly">
-                                                                        </label>
-                                                                        <br>
-                                                                        <label>Name
-                                                                            <input type="text"
-                                                                                   class="form-control form-control-sm"
-                                                                                   id="name2" name="name"
-                                                                                   readonly="readonly">
-                                                                        </label>
-                                                                        <br>
-                                                                        <label>LastName
-                                                                            <input type="text"
-                                                                                   class="form-control form-control-sm"
-                                                                                   id="lastName2" name="lastName"
-                                                                                   readonly="readonly">
-                                                                        </label>
-                                                                        <br>
-                                                                        <label>UserName
-                                                                            <input type="text"
-                                                                                   class="form-control form-control-sm"
-                                                                                   id="userName2" name="userName"
-                                                                                   readonly="readonly">
-                                                                        </label>
-                                                                        <br>
-                                                                        <label>Password
-                                                                            <input type="password"
-                                                                                   class="form-control form-control-sm"
-                                                                                   id="password2" name="password"
-                                                                                   readonly="readonly">
-                                                                        </label>
-                                                                        <br>
-                                                                        <label>Role
-                                                                            <select class="form-control form-control-sm" multiple name="roleNames" id="roles2" required size="2">
-                                                                                <option value="ROLE_USER" selected>USER</option>
-                                                                                <option value="ROLE_ADMIN" selected>ADMIN</option>
-                                                                            </select>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                        <button type="submit" class="btn btn-danger" id="deleteUser">Delete
-                                                                        </button>
-                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-danger" id="modalDeleteBtn">Delete</button>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
                                                 </td>
-                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -196,13 +199,12 @@
                             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                 <div class="tab-content border rounded">
                                     <h5 class="p-2 pl-3 m-0 rounded">Add New User</h5>
-                                    <div class="col-md-4 mx-auto col text-center">
+                                    <div id="dropEmptyUser" class="col-md-4 mx-auto col text-center">
                                         <div class="form-group text-center font-weight-bold">
-                                            <form id="defaultSomeForm" data-hidden=true>
                                             <label>Name
                                                 <input type="text"
                                                        class="form-control form-control-sm"
-                                                       id="AddNewUserName"
+                                                       id="newName"
                                                        name="name"
                                                        placeholder="Name">
                                             </label>
@@ -210,7 +212,7 @@
                                             <label>LastName
                                                 <input type="text"
                                                        class="form-control form-control-sm"
-                                                       id="AddNewLastName"
+                                                       id="newLastName"
                                                        name="lastName"
                                                        placeholder="LastName">
                                             </label>
@@ -218,7 +220,7 @@
                                             <label>UserName
                                                 <input type="text"
                                                        class="form-control form-control-sm"
-                                                       id="AddNewUserUserName"
+                                                       id="newUserName"
                                                        name="userName"
                                                        placeholder="UserName">
                                             </label>
@@ -226,21 +228,19 @@
                                             <label>Password
                                                 <input type="password"
                                                        class="form-control form-control-sm"
-                                                       id="AddNewUserPassword"
+                                                       id="newPassword"
                                                        name="password"
                                                        placeholder="Password">
                                             </label>
                                             <br>
                                             <label>Role
-                                                <select class="form-control form-control-sm" multiple name="roleNames" id="AddNewUserRoles" required size="2">
+                                                <select class="form-control form-control-sm" multiple name="roleNames" id="roles3" required size="2">
                                                     <option value="ROLE_USER" selected>USER</option>
                                                     <option value="ROLE_ADMIN" selected>ADMIN</option>
                                                 </select>
                                             </label>
-                                                <br>
-                                                <button class="btn btn-success" type="button" id="addNewUser">Add new user</button>
-                                            </form>
                                         </div>
+                                            <button type="submit" class="btn btn-success" id="addSubmit">Add new user</button>
                                     </div>
                                 </div>
                             </div>
