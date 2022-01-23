@@ -62,17 +62,16 @@ function reloadNewUserTable(){
 $(function () {
     $("#logout").append("<a class='custom-a' href='/logout'>Logout</a>");
     $('#addSubmit').on("click", function () {
-        let userRoles = []
-        console.log($('#addFormRoles').val())
-        for(let i = 0; i < $('#addFormRoles').val().length; i++){
-            userRoles.push({role:$('#addFormRoles').val()[i]})
-        }
+        let checked = [];
+        $('input:checkbox:checked').each(function () {
+            checked.push($(this).val());
+        });
         let user = {
             name : $("#newName").val(),
             lastName : $("#newLastName").val(),
             userName : $("#newUserName").val(),
             password : $("#newPassword").val(),
-            roles : userRoles
+            roles : checked
         };
         fetch('http://localhost:8080/api/restUsers', {
             method: "POST",
